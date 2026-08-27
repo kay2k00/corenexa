@@ -7,6 +7,7 @@ const safeDecode = (value) => {
   try {
     return decodeURIComponent(value);
   } catch (error) {
+    console.warn("Decode error:", error);
     return value;
   }
 };
@@ -18,16 +19,19 @@ const getPageName = (value) => {
 
 const pageName = getPageName(window.location.pathname);
 
+// Initialize navigation
 document.querySelectorAll(".navbar").forEach((navbar, index) => {
   const links = navbar.querySelector(".nav-links");
   const cta = navbar.querySelector(".nav-cta");
 
-  if (links && !navbar.querySelector(".nav-toggle")) {
-    const menuLinks = Array.from(links.querySelectorAll("a"));
-    if (!links.id) {
-      links.id = `main-navigation-links-${index + 1}`;
-    }
+  if (!links) return;
 
+  const menuLinks = Array.from(links.querySelectorAll("a"));
+  const linkId = `main-navigation-links-${index + 1}`;
+  links.id = links.id || linkId;
+
+  // Create mobile menu toggle if it doesn't exist
+  if (!navbar.querySelector(".nav-toggle")) {
     const toggle = document.createElement("button");
     toggle.className = "nav-toggle";
     toggle.type = "button";
@@ -64,7 +68,7 @@ document.querySelectorAll(".navbar").forEach((navbar, index) => {
     });
 
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
+      if (event.key === "Escape" && document.body.classList.contains("nav-open")) {
         closeMenu();
       }
     });
@@ -73,7 +77,6 @@ document.querySelectorAll(".navbar").forEach((navbar, index) => {
       if (!document.body.classList.contains("nav-open") || navbar.contains(event.target)) {
         return;
       }
-
       closeMenu();
     });
 
@@ -84,7 +87,8 @@ document.querySelectorAll(".navbar").forEach((navbar, index) => {
     }
   }
 
-  links?.querySelectorAll("a[href]").forEach((link) => {
+  // Set current page indicator
+  links.querySelectorAll("a[href]").forEach((link) => {
     link.removeAttribute("aria-current");
     const linkName = getPageName(link.getAttribute("href") || "index.html");
     if (linkName === pageName) {
@@ -92,15 +96,23 @@ document.querySelectorAll(".navbar").forEach((navbar, index) => {
     }
   });
 
+  // Handle CTA button on contact page
   if (document.body.classList.contains("contact-page") && cta) {
     cta.addEventListener("click", (event) => {
       event.preventDefault();
-      document.querySelector(".contact-form-container")?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
-      document.querySelector(".contact-form input, .contact-form textarea, .contact-form select")?.focus({ preventScroll: true });
+      const formContainer = document.querySelector(".contact-form-container");
+      if (formContainer) {
+        formContainer.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+        const firstField = document.querySelector(".contact-form input, .contact-form textarea, .contact-form select");
+        if (firstField) {
+          firstField.focus({ preventScroll: true });
+        }
+      }
     });
   }
 });
 
+// Header scroll effect
 const header = document.querySelector(".site-header");
 if (header) {
   const updateHeader = () => {
@@ -110,10 +122,12 @@ if (header) {
   window.addEventListener("scroll", updateHeader, { passive: true });
 }
 
+// External link security
 document.querySelectorAll('a[target="_blank"]').forEach((link) => {
   link.rel = "noopener noreferrer";
 });
 
+// Hash link smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
   link.addEventListener("click", (event) => {
     const targetId = link.getAttribute("href");
@@ -127,6 +141,7 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
   });
 });
 
+// Button ripple effect
 document.querySelectorAll(".button, .landing-button, .nav-cta").forEach((button) => {
   button.addEventListener("pointerdown", (event) => {
     if (reduceMotion || event.button > 0) return;
@@ -143,6 +158,7 @@ document.querySelectorAll(".button, .landing-button, .nav-cta").forEach((button)
   });
 });
 
+// Interactive card lighting effect
 const interactiveSurfaces = document.querySelectorAll(
   ".card, .diagnostic-card, .sap-challenge-card, .service-card, .about-feature-card, .about-step-card, .about-expertise-card, .services-flow-step, .sap-model-step"
 );
@@ -162,8 +178,9 @@ if (!reduceMotion && window.matchMedia("(pointer: fine)").matches) {
   });
 }
 
+// Scroll reveal animation setup
 const revealItems = document.querySelectorAll(
-  ".landing-content, .financial-hero-visual, .services-hero-copy, .sap-partner-hero-copy, .about-hero-copy, .contact-hero-content, .hero, .diagnostic, .expectations, .partner, .expertise, .cta, .location-card, .card, .metric, .service-card, .service-detail-card, .services-diagnosis-section, .services-start-section, .services-audience-section, .services-partner-section, .services-flow-step, .sap-challenge-card, .sap-fit-panel, .sap-commercial-panel, .sap-model-step, .contact-info, .contact-form-container, .about-approach-section, .about-statement-section, .about-intro-section, .about-difference-section, .about-value-section, .about-engage-section, .about-audience-section, .about-collaboration-section, .about-expertise-section, .about-feature-card, .about-step-card, .about-expertise-card, .investment-section"
+  ".landing-content, .financial-hero-visual, .services-hero-copy, .sap-partner-hero-copy, .about-hero-copy, .contact-hero-content, .hero, .diagnostic, .expectations, .partner, .expertise, .cta, .card, .metric, .diagnostic-card, .sap-challenge-card, .service-card, .about-feature-card, .about-step-card, .about-expertise-card, .services-flow-step, .sap-model-step"
 );
 
 if (reduceMotion) {
@@ -193,10 +210,12 @@ if (reduceMotion) {
   }
 }
 
+// Toast notification system
 const toast = document.createElement("div");
 toast.className = "site-toast";
 toast.setAttribute("role", "status");
 toast.setAttribute("aria-live", "polite");
+toast.setAttribute("aria-atomic", "true");
 document.body.appendChild(toast);
 
 let toastTimer;
@@ -207,6 +226,7 @@ const showToast = (message) => {
   toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 4200);
 };
 
+// Contact form handling
 const contactForm = document.querySelector(".contact-form");
 if (contactForm) {
   const formStatus = contactForm.querySelector(".form-status");
@@ -229,8 +249,10 @@ if (contactForm) {
       return;
     }
 
-    submitButton?.setAttribute("disabled", "true");
-    if (submitButton) submitButton.textContent = "Sending...";
+    if (submitButton) {
+      submitButton.setAttribute("disabled", "true");
+      submitButton.textContent = "Sending...";
+    }
     updateStatus("Sending your message...", "pending");
 
     const formData = new FormData(contactForm);
@@ -263,18 +285,14 @@ if (contactForm) {
   });
 }
 
+// Contact form field state tracking
 document.querySelectorAll(".contact-form input, .contact-form textarea, .contact-form select").forEach((field) => {
-  field.classList.toggle("has-value", Boolean(field.value));
-
-  field.addEventListener("blur", () => {
+  const updateFieldState = () => {
     field.classList.toggle("has-value", Boolean(field.value));
-  });
+  };
 
-  field.addEventListener("change", () => {
-    field.classList.toggle("has-value", Boolean(field.value));
-  });
-
-  field.addEventListener("input", () => {
-    field.classList.toggle("has-value", Boolean(field.value));
-  });
+  updateFieldState();
+  field.addEventListener("blur", updateFieldState);
+  field.addEventListener("change", updateFieldState);
+  field.addEventListener("input", updateFieldState);
 });
