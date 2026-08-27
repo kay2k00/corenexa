@@ -973,33 +973,59 @@ li {
 }
 
 /* =========================================================
-   LOCATION CARD — FINAL STYLING
-   Applies to index.html AND contact.html
+   LOCATION CARD
+   ORIGINAL SIZE + NEW GRADIENT AESTHETIC
    ========================================================= */
 
-/* Location card */
 .location-section .location-card {
+  /* KEEP THE ORIGINAL CARD SIZE / STRUCTURE */
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
+  gap: 0;
+  align-items: stretch;
+
+  max-width: 1180px;
+  min-height: 420px;
+
+  margin: 0 auto;
+
+  /* ONLY CHANGE THE VISUAL APPEARANCE */
   background: linear-gradient(
     135deg,
     #1a3c6e 0%,
     #40aacd 100%
   );
 
-  border: none;
+  border: 0;
   border-radius: var(--card-radius);
 
-  box-shadow: 0 16px 35px rgba(26, 60, 110, 0.18);
+  box-shadow: 0 18px 40px rgba(26, 60, 110, 0.16);
 
   overflow: hidden;
 }
 
 
 /* =========================================================
-   LOCATION TEXT
+   LEFT SIDE
+   KEEP ORIGINAL SPACING
    ========================================================= */
 
-/* Visit Our Office — white → cyan gradient */
+.location-section .location-info {
+  padding: 54px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+/* =========================================================
+   VISIT OUR OFFICE
+   WHITE → CYAN GRADIENT
+   ========================================================= */
+
 .location-section .location-info h2 {
+  margin-bottom: 18px;
+
   background: linear-gradient(
     90deg,
     #ffffff 0%,
@@ -1012,17 +1038,23 @@ li {
 
   -webkit-text-fill-color: transparent;
   color: transparent;
-}
 
-
-/* Address — WHITE */
-.location-section .location-info p {
-  color: #ffffff;
+  font-family: "Inter", Arial, sans-serif;
+  font-weight: 800;
 }
 
 
 /* =========================================================
-   GOOGLE MAPS LINK
+   ADDRESS
+   ========================================================= */
+
+.location-section .location-info p {
+  color: #ffffff !important;
+}
+
+
+/* =========================================================
+   GOOGLE MAPS
    ========================================================= */
 
 .location-section .location-info .arrow-link {
@@ -1030,22 +1062,18 @@ li {
   text-decoration: none !important;
 }
 
-
-/* Arrow — WHITE */
 .location-section .location-info .arrow-link span {
   color: #ffffff !important;
 }
 
 
-/* Keep the link WHITE when hovered */
+/* NO UNDERLINE HOVER */
 .location-section .location-info .arrow-link:hover {
   color: #ffffff !important;
   text-decoration: none !important;
-  background: transparent !important;
+  background: none !important;
 }
 
-
-/* Keep the arrow WHITE when hovered */
 .location-section .location-info .arrow-link:hover span {
   color: #ffffff !important;
 }
@@ -1053,35 +1081,54 @@ li {
 
 /* =========================================================
    MAP
+   KEEP ORIGINAL SIZE
    ========================================================= */
 
 .location-section .map-wrapper {
+  min-height: 420px;
+
   overflow: hidden;
 
-  border: 2px solid rgba(255, 255, 255, 0.55);
-  border-radius: var(--card-radius);
+  border: 0;
+  border-radius: 0;
 
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: none;
 }
 
 .location-section .map-wrapper iframe {
-  display: block;
-
   width: 100%;
   height: 100%;
   min-height: 420px;
+
+  display: block;
 
   border: 0;
 }
 
 
 /* =========================================================
-   IMPORTANT:
-   DO NOT CHANGE THE FOOTER
-   DO NOT ADD UNDERLINES TO OTHER LINKS
-   DO NOT CHANGE OTHER CARDS
+   MOBILE
    ========================================================= */
 
+@media (max-width: 768px) {
+
+  .location-section .location-card {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .location-section .location-info {
+    padding: 40px 32px;
+  }
+
+  .location-section .map-wrapper {
+    min-height: 300px;
+  }
+
+  .location-section .map-wrapper iframe {
+    min-height: 300px;
+  }
+}
 .site-footer {
   position: relative;
   background: var(--ink);
