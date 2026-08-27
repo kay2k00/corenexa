@@ -972,113 +972,115 @@ li {
   margin-bottom: 28px;
 }
 
-.home-page .location-section {
-  width: 100%;
-  padding: 24px;
-  background: var(--bg-light);
-}
+/* =========================================================
+   LOCATION CARD — FINAL STYLING
+   Applies to index.html AND contact.html
+   ========================================================= */
 
-.location-card {
-  position: relative;
-  min-height: 280px;
-  display: flex;
-  align-items: stretch;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+/* Location card */
+.location-section .location-card {
+  background: linear-gradient(
+    135deg,
+    #1a3c6e 0%,
+    #40aacd 100%
+  );
+
+  border: none;
   border-radius: var(--card-radius);
-  background:
-    linear-gradient(155deg, rgba(26, 60, 110, 0.96) 0%, rgba(0, 110, 146, 0.95) 54%, rgba(64, 170, 205, 0.92) 100%);
-  box-shadow:
-    0 22px 48px rgba(26, 60, 110, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.14);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  max-width: 1180px;
-  margin: 0 auto;
+
+  box-shadow: 0 16px 35px rgba(26, 60, 110, 0.18);
+
+  overflow: hidden;
 }
 
-.location-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  pointer-events: none;
-  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 0%), rgba(255, 255, 255, 0.22), transparent 34%);
-  transition: opacity 0.25s ease;
-}
 
-.location-card:hover {
-  box-shadow:
-    0 30px 58px rgba(26, 60, 110, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
-  transform: translateY(-6px);
-}
+/* =========================================================
+   LOCATION TEXT
+   ========================================================= */
 
-.location-card.is-lit::before {
-  opacity: 1;
-}
+/* Visit Our Office — white → cyan gradient */
+.location-section .location-info h2 {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #ffffff 45%,
+    #40aacd 100%
+  );
 
-.location-info {
-  position: relative;
-  z-index: 1;
-  flex: 1;
-  padding: 44px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 16px;
-}
-
-.location-info h2 {
-  background: linear-gradient(90deg, #ffffff 0%, #40aacd 100%);
   -webkit-background-clip: text;
   background-clip: text;
-  color: transparent;
+
   -webkit-text-fill-color: transparent;
-  margin: 0;
-  font-size: clamp(24px, 3vw, 32px);
+  color: transparent;
 }
 
-.location-info p {
-  color: var(--white);
-  margin: 0;
-  line-height: 1.6;
-  font-size: 16px;
-  font-weight: 500;
+
+/* Address — WHITE */
+.location-section .location-info p {
+  color: #ffffff;
 }
 
-.location-info .arrow-link {
-  color: var(--white);
-  font-weight: 800;
-  margin-top: 8px;
-  display: inline-flex;
-  width: fit-content;
-  font-size: 15px;
+
+/* =========================================================
+   GOOGLE MAPS LINK
+   ========================================================= */
+
+.location-section .location-info .arrow-link {
+  color: #ffffff !important;
+  text-decoration: none !important;
 }
 
-.location-info .arrow-link:hover {
-  color: var(--white);
-  transform: translateX(2px);
+
+/* Arrow — WHITE */
+.location-section .location-info .arrow-link span {
+  color: #ffffff !important;
 }
 
-.location-info .arrow-link span[aria-hidden="true"] {
-  display: inline-flex;
-  margin-left: 4px;
+
+/* Keep the link WHITE when hovered */
+.location-section .location-info .arrow-link:hover {
+  color: #ffffff !important;
+  text-decoration: none !important;
+  background: transparent !important;
 }
 
-.map-wrapper {
-  position: relative;
-  flex: 1;
-  width: 100%;
-  min-height: 300px;
+
+/* Keep the arrow WHITE when hovered */
+.location-section .location-info .arrow-link:hover span {
+  color: #ffffff !important;
+}
+
+
+/* =========================================================
+   MAP
+   ========================================================= */
+
+.location-section .map-wrapper {
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.05);
+
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  border-radius: var(--card-radius);
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
-.map-wrapper iframe {
+.location-section .map-wrapper iframe {
+  display: block;
+
   width: 100%;
   height: 100%;
-  border: none;
+  min-height: 420px;
+
+  border: 0;
 }
+
+
+/* =========================================================
+   IMPORTANT:
+   DO NOT CHANGE THE FOOTER
+   DO NOT ADD UNDERLINES TO OTHER LINKS
+   DO NOT CHANGE OTHER CARDS
+   ========================================================= */
 
 .site-footer {
   position: relative;
